@@ -22,5 +22,9 @@ else
     exit
 fi
 java -cp CPATH org.junit.runner.JUnitCore TestListExamples > file.txt
-grep -c "Error" 
+if [[ grep -c "Error" == 0]]
+then 
+    echo "100%"
+else 
+    echo "0% Try again."
 
