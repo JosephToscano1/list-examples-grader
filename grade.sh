@@ -6,30 +6,35 @@ echo 'Finished cloning'
 
 cd student-submission
 
-if[[-f ListExamples.java]]
-then echo 'File Found'
+if [[ -f ListExamples.java ]]
+then 
+    echo 'File Found'
 else
-echo 'File not found! Try to make sure your file is named correctly and in the
+    echo 'File not found! Try to make sure your file is named correctly and in the
  right folder'
  exit
  fi
 
-cp ListExamples.java List-Examples-Grader
-cd List-Examples-Grader
+cp ListExamples.java ..
+cd ..
 
 javac -cp ".;lib/hamcrest-core-1.3.jar;lib/junit-4.13.2.jar" *.java
-if[[ $? == 0]]
+if [[ $? == 0 ]]
 then echo 'compile success'
 else
-echo 'compile failed'
+echo 'compile failed, make sure your code can compile!'
+exit 1
 fi
 
 java -cp ".;lib/junit-4.13.2.jar;lib/hamcrest-core-1.3.jar" org.junit.runner.JUnitCore TestListExamples > file.txt
 
+var="$(grep "There was" file.txt)"
 
-if [[grep "E" file.txt -c == 0]]
+
+
+if [[ $var == "" ]]
 then echo '100%'
-else echo grep "E" file.txt -c /1 '%'
+else echo $var "0%"
 fi
 
 
